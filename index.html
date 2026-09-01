@@ -1,0 +1,95 @@
+JavaScript
+
+
+    const testimonials = [
+        {
+            quote: "A redução de lesões no nosso elenco principal foi imediata no primeiro trimestre. O sistema de alerta de fadiga mudou nosso planejamento.",
+            author: "Dr. Roberto Silva",
+            role: "Diretor Médico de Clube da Série A"
+        },
+        {
+            quote: "A precisão dos dados táticos gerados via visão computacional nos deu uma vantagem competitiva gigantesca na preparação para os jogos.",
+            author: "Carlos Eduardo",
+            role: "Analista de Desempenho"
+        },
+        {
+            quote: "Conseguimos otimizar nosso departamento de scouting. A plataforma cruza métricas físicas e táticas com um grau de confiabilidade impressionante.",
+            author: "Mariana Costa",
+            role: "Gerente de Futebol"
+        }
+    ];
+
+    let currentTestimonialIndex = 0;
+    const carouselContainer = document.getElementById('carousel-container');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+
+    function renderTestimonial(index) {
+        const item = testimonials[index];
+        carouselContainer.innerHTML = `
+            <p class="testimonial-quote">"${item.quote}"</p>
+            <h4 style="margin-top: 1rem; color: var(--primary);">${item.author}</h4>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">${item.role}</span>
+        `;
+    }
+
+    prevBtn.addEventListener('click', () => {
+        currentTestimonialIndex = (currentTestimonialIndex - 1 + testimonials.length) % testimonials.length;
+        renderTestimonial(currentTestimonialIndex);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
+        renderTestimonial(currentTestimonialIndex);
+    });
+
+    renderTestimonial(currentTestimonialIndex);
+
+    // 3. Renderização do Acordeão (FAQ)
+    const faqs = [
+        {
+            question: "Quanto tempo leva para implementar o sistema no clube?",
+            answer: "A integração básica de dados e configuração da plataforma leva menos de 48 horas. O treinamento da equipe técnica é concluído em até 5 dias úteis."
+        },
+        {
+            question: "É necessário adquirir hardware proprietário?",
+            answer: "Não. O FutTech é compatível com os principais dispositivos de GPS e câmeras já utilizados no mercado, integrando-se via API aos seus equipamentos atuais."
+        },
+        {
+            question: "Como funciona a garantia de privacidade dos dados do atleta?",
+            answer: "Operamos sob rígidos protocolos de segurança LGPD e GDPR, garantindo criptografia ponta a ponta e total propriedade dos dados por parte do clube."
+        }
+    ];
+
+    const accordionContainer = document.getElementById('accordion-container');
+
+    faqs.forEach((faq) => {
+        const itemEl = document.createElement('div');
+        itemEl.classList.add('accordion-item');
+        
+        itemEl.innerHTML = `
+            <button class="accordion-header">
+                <span>${faq.question}</span>
+                <span class="icon">+</span>
+            </button>
+            <div class="accordion-body">
+                <p>${faq.answer}</p>
+            </div>
+        `;
+
+        const headerBtn = itemEl.querySelector('.accordion-header');
+        headerBtn.addEventListener('click', () => {
+            const isActive = itemEl.classList.contains('active');
+            
+            // Fecha todos os itens
+            document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('active'));
+            
+            // Abre o atual se não estava ativo
+            if (!isActive) {
+                itemEl.classList.add('active');
+            }
+        });
+
+        accordionContainer.appendChild(itemEl);
+    });
+});
